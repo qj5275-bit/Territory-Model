@@ -1,0 +1,26 @@
+check_id,category,description,status,observed,expected,details
+SRC-ACS-001,source_schema,ACS source identifies 2024 ACS 5-Year Detailed Table B19013,PASS,2024|ACS5|B19013,2024|ACS5|B19013,Validated against supplied Census metadata and notes.
+SRC-ACS-002,source_schema,ACS annotation row excluded,PASS,1,1,Metadata label row is not an observation.
+SRC-XW-001,source_schema,Crosswalk workbook and expected worksheet/header are present,PASS,ZiptoZCTA|6 fields,ZiptoZCTA|6 fields,Workbook inspected read-only.
+SRC-XW-002,source_schema,Crosswalk underlying geographic vintages recorded,PASS,ZCTA TIGER 2023|ZIP June 2023,documented,Captured from the workbook's Sources and Data Notes sheet.
+ID-ACS-001,identifier,ACS ZCTA identifiers are valid and unique,PASS,33772,33772,No duplicate resolution was required.
+ID-XW-001,identifier,Crosswalk ZIP identifiers are valid and unique,PASS,41061,41061,One source record per ZIP; leading zeros retained.
+ID-XW-002,identifier,Nonblank crosswalk ZCTAs are valid five-digit strings,PASS,33790,all nonblank valid,Blank ZCTA rows=8 and are separately flagged.
+INC-001,income,Income-status reconciliation,PASS,33772,33772,"{""bottom_open_ended"": 15, ""not_computed_dash"": 3225, ""top_open_ended"": 118, ""valid"": 30414}"
+INC-002,income,Missing/special income was not converted to zero,PASS,0,0,Open-ended values remain censored special values.
+MOE-001,uncertainty,MOE-status reconciliation,PASS,33772,33772,"{""cannot_compute_insufficient_observations"": 3225, ""cannot_compute_open_ended_median"": 133, ""valid"": 30414}"
+XW-REC-001,mapping,Raw crosswalk row reconciliation,PASS,41053+8,41061,Nonblank-ZCTA rows plus no-ZCTA exception rows equals source rows.
+XW-CARD-001,mapping,ZIP-to-ZCTA source cardinality documented,PASS,ZIP one-row=41061; ZCTA one-ZIP=29266; ZCTA multi-ZIP=4524,documented,The HRSA file is a pre-resolved one-record-per-ZIP crosswalk.
+XW-WGT-001,mapping,Allocation weights are available,WARN,0,>=1 allocation field preferred,Source provides categorical join method but no residential/population/address weights; limitation retained for review.
+MAP-001,mapping,Canonical ZCTA mapping reconciliation,PASS,33770+2,33772,Resolved plus unresolved equals canonical ACS ZCTAs.
+MAP-002,mapping,Cross-state relationships are retained and flagged,PASS,2,2,45202 and 45209 assigned from direct match; OH/KY candidates preserved.
+MAP-003,mapping,Unresolved ACS ZCTAs are explicitly listed,WARN,2,0,32026 and 97258 remain unresolved; no prefix or manual correction applied.
+MAP-004,mapping,Crosswalk no-ZCTA ZIPs are explicitly listed,WARN,8,0,Territory ZIPs with no ZCTA remain in raw/resolved ZIP outputs and exceptions.
+STATE-001,within_state,All exact valid income records received state ranks,PASS,30414,30414,The two unmatched state records have non-exact income and therefore do not reduce rank coverage.
+STATE-002,within_state,Percentile and empirical-CDF bounds,PASS,true,true,Checked every calculated rank row.
+STATE-003,within_state,Within-state percentiles are monotone under income ordering,PASS,true,true,Checked independently within each resolved jurisdiction.
+STATE-004,within_state,Tied incomes receive identical rank measures,PASS,true,true,"Minimum rank, midrank, percentile, CDF, and tie count agree within ties."
+STATE-005,within_state,State summaries reconcile to resolved ZCTAs,PASS,33770,33770,Jurisdictions summarized=52.
+REC-001,reconciliation,ACS physical-row reconciliation,PASS,1+1+33772,33774,Header + annotation + data equals physical rows.
+REC-002,reconciliation,Mapping exception table is non-empty and reason-coded,PASS,33,>0 reason-coded exceptions,No exception was discarded.
+GATE-001,phase_gate,Candidate groupings were not produced before checkpoint approval,PASS,0,0,Pipeline stops at the Phase 1 checkpoint.

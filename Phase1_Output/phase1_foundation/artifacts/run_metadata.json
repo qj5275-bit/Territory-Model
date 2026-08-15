@@ -1,0 +1,15 @@
+{
+  "candidate_groups_produced": false,
+  "checkpoint_status": "complete_with_documented_exceptions_pending_approval",
+  "crosswalk_release_label": "HRSA 2024 ZIP Code to ZCTA Crosswalk",
+  "crosswalk_underlying_vintage": "HRSA 2024 release; Census TIGER 2023 ZCTA boundaries; June 2023 ZIP boundaries",
+  "generated_at_utc": "2026-08-15T02:59:00+00:00",
+  "internal_experience_used": false,
+  "openpyxl_version": "3.1.5",
+  "pipeline_version": "1.1.0",
+  "python_requirement": "Python 3.10+",
+  "raw_source_immutability_verified": true,
+  "run_id": "phase1_acs2024_b4f59c2a02_xw_29e5a007c6_v1_1_0",
+  "selected_acs_sha256": "b4f59c2a023b40f150df20ad2a54a29d4d3daa6f1128e7a90981951a02983915",
+  "selected_crosswalk_sha256": "29e5a007c6825a17336dde863ea35ae35de8b142fe224279f2ec241bd69a249f"
+}

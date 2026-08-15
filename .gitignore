@@ -1,0 +1,13 @@
+.DS_Store
+**/.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+
+Data/HH Data/
+Data/Crosswalk/*.xlsx
+
+Phase1_Output/*.zip
+Phase1_Output/archive/
+Phase1_Output/phase1_foundation/artifacts/tables/
+Phase1_Output/phase1_foundation/artifacts/exceptions/

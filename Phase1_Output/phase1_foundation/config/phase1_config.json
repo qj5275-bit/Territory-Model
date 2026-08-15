@@ -1,0 +1,19 @@
+{
+  "pipeline_version": "1.1.0",
+  "acs_year": 2024,
+  "acs_product": "ACS 5-Year Estimates Detailed Tables",
+  "acs_table": "B19013",
+  "acs_units": "2024 inflation-adjusted dollars",
+  "selected_data_file": "HH Data/ACSDT5Y2024.B19013-Data.csv",
+  "selected_metadata_file": "HH Data/ACSDT5Y2024.B19013-Column-Metadata.csv",
+  "selected_notes_file": "HH Data/ACSDT5Y2024.B19013-Table-Notes.txt",
+  "crosswalk_file": "Crosswalk/ZIPCodetoZCTACrosswalk2024UDS.xlsx",
+  "crosswalk_landing_page": "https://data.hrsa.gov/GeoCareNavigator/Resources",
+  "crosswalk_download_url": "https://data.hrsa.gov/DataDownload/GeoCareNavigator/ZIPCodetoZCTACrosswalk2024UDS.xlsx",
+  "crosswalk_vintage": "HRSA 2024 release; Census TIGER 2023 ZCTA boundaries; June 2023 ZIP boundaries",
+  "estimate_column": "B19013_001E",
+  "moe_column": "B19013_001M",
+  "relative_moe_warning_threshold": 0.5,
+  "relative_moe_severe_threshold": 1.0,
+  "source_url": "https://data.census.gov/table/ACSDT5Y2024.B19013?q=B19013"
+}

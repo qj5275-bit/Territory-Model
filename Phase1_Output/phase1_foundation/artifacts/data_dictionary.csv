@@ -1,0 +1,35 @@
+original_field,source,original_type,definition,transformation,final_field,final_type,units
+GEO_ID,Census,string,Original Census geography identifier,Preserved unchanged,geo_id_raw,string,N/A
+NAME,Census,string,Original Census geographic area name,Preserved unchanged,geo_label_raw,string,N/A
+GEO_ID + NAME,Derived,string,Five-digit ZCTA,Regex-extract from both fields; require agreement; preserve leading zeros,zcta5,string(5),N/A
+source row,Derived,integer,One-based physical row in source CSV,Header and annotation rows retained in count but excluded from data,source_row_number,integer,row number
+B19013_001E,Census,string,Median household income in past 12 months,Remove commas for exact numeric values; special symbols and open-ended values are not treated as exact,median_household_income,nullable decimal,2024 inflation-adjusted dollars
+B19013_001E,Census,string,Original estimate display value,Preserved unchanged,income_estimate_raw,string,2024 inflation-adjusted dollars
+B19013_001E,Derived,string,Estimate validity/special-value classification,Explicit Census-symbol parser,income_value_status,categorical string,N/A
+B19013_001E,Derived,decimal,Numeric bound for open-ended median display,"Parse numeric portion of 250,000+ or 2,500- without using it as exact income",income_bound_value,nullable decimal,2024 inflation-adjusted dollars
+B19013_001E,Derived,string,Direction of open-ended median,+ maps to above; - suffix maps to below,income_censor_direction,nullable categorical string,N/A
+B19013_001M,Census,string,90 percent margin of error for median income,Remove commas for numeric values; parse symbols explicitly,income_moe,nullable decimal,2024 inflation-adjusted dollars
+B19013_001M,Census,string,Original MOE display value,Preserved unchanged,income_moe_raw,string,2024 inflation-adjusted dollars
+B19013_001M,Derived,string,MOE validity/special-value classification,Explicit Census-symbol parser,income_moe_status,categorical string,N/A
+B19013_001E / B19013_001M,Derived,decimal,Relative MOE diagnostic,income_moe / median_household_income only when both are numeric and income > 0,income_relative_moe,nullable decimal,ratio
+Configuration,Derived,integer,ACS estimate year,Constant 2024,acs_year,integer,year
+Configuration,Derived,string,ACS product,Constant from validated metadata,acs_product,string,N/A
+Configuration,Derived,string,ACS table ID,Constant B19013,acs_table,string,N/A
+STATE,HRSA crosswalk,string,Source state associated with a USPS ZIP,Resolve ZCTA state by explicit hierarchy; direct ZIP=ZCTA has priority,state_code,nullable string(2),N/A
+ZIP_JOIN_TYPE + ZIP_CODE + ZCTA,Derived,string,Rule used to select state,"Direct ZIP=ZCTA, exact-code special record, or only candidate state; no first-row selection",state_assignment_method,nullable categorical string,N/A
+STATE relationships,Derived,boolean,Multiple state candidates exist for ZCTA,True when retained relationships contain more than one state,state_assignment_ambiguous,nullable boolean,N/A
+Crosswalk relationship set,Derived,string,ZCTA mapping result,"Matched, matched cross-state, ambiguous unresolved, or unmatched",mapping_status,categorical string,N/A
+STATE relationships,Derived,integer,Distinct candidate state count,Count unique source STATE values for ZCTA,state_candidate_count,integer,states
+STATE relationships,Derived,string,All candidate states,Sorted pipe-delimited source states,state_candidate_codes,string,N/A
+Crosswalk rows,Derived,integer,Source relationship count for ZCTA,Count retained HRSA rows for ZCTA,crosswalk_relationship_count,integer,records
+Resolution logic,Derived,string,Auditable mapping reason,Named reason code from resolution hierarchy,state_resolution_reason_code,categorical string,N/A
+income + resolved state,Derived,integer,Minimum within-state rank under ties,"Sort income ascending, ZCTA for record order; identical values share minimum rank",income_rank_in_state,nullable integer,rank
+income + resolved state,Derived,decimal,Within-state midrank,Average of minimum and maximum tied ranks,income_midrank_in_state,nullable decimal,rank
+income + resolved state,Derived,decimal,Within-state percentile,"(midrank-1)/(n-1), n>1; n=1 -> 0.5",income_percentile_in_state,nullable decimal,0 to 1
+income + resolved state,Derived,decimal,Within-state empirical CDF,Maximum tied rank / n,income_empirical_cdf_in_state,nullable decimal,0 to 1
+income + resolved state,Derived,integer,Number of equal-income ZCTAs in state,Count identical exact income values within state,tie_count,nullable integer,records
+ZIP_CODE,HRSA crosswalk,string,Five-digit USPS ZIP,Preserve as five-character string,zip5,string(5),N/A
+ZCTA,HRSA crosswalk,string,HRSA assigned Census ZCTA,Preserve as five-character string; blank remains blank,zcta5_crosswalk,nullable string(5),N/A
+ZIP_JOIN_TYPE,HRSA crosswalk,string,Source assignment method,Preserved unchanged,zip_join_type,categorical string,N/A
+ZIP_TYPE,HRSA crosswalk,string,USPS ZIP type,Preserved unchanged,zip_type,categorical string,N/A
+ACS checksum + crosswalk checksum + pipeline version,Derived,string,Deterministic run identifier,Concatenate source hash prefixes and version,run_id,string,N/A
