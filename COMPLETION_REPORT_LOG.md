@@ -1,8 +1,8 @@
 # Territory Project Completion Report Log
 
 **Canonical location:** `/Users/amber/Desktop/Territory/COMPLETION_REPORT_LOG.md`  
-**Current as of:** 2026-08-14 23:20 EDT  
-**Latest report:** `CR-20260814-004`  
+**Current as of:** 2026-08-14 23:30 EDT  
+**Latest report:** `CR-20260814-005`  
 **Analytical checkpoint:** **COMPLETE WITH DOCUMENTED EXCEPTIONS — APPROVAL REQUIRED BEFORE CANDIDATE GROUPS**
 
 ## How to maintain this log
@@ -68,9 +68,10 @@ Raw/source files remain under `Data/`. Generated tables, reports, exceptions, co
 - Branch: `main`
 - Remote name: `origin`
 - Remote URL: `https://github.com/qj5275-bit/Territory-Model.git`
-- Remote state verified at connection: empty repository (0 branch/tag refs)
-- Local commit state: no commits yet
-- Upload state: no files staged, committed, or pushed by this connection step
+- Remote state verified at upload attempt: empty repository (0 branch/tag refs)
+- Local commit state: root commit `a5c71b1` (`Initialize Territory modeling project`), not yet pushed
+- Upload state: `BLOCKED` before transfer because no GitHub HTTPS credential is configured
+- Authentication diagnostics: no Git credential helper, no SSH public key, and no SSH-agent identity; no secret was read or stored
 
 ### Latest verified results
 
@@ -113,7 +114,8 @@ Raw/source files remain under `Data/`. Generated tables, reports, exceptions, co
 | U-010 | `WARNING` | One HRSA special row is internally inconsistent: ZIP/PO name indicates `32026`, but its ZCTA field is `32076`; it was preserved and not silently corrected. | QA report and `mapping_exceptions.csv`. |
 | U-011 | `RESOLVED` | The earlier missing-crosswalk blocker is closed. | HRSA workbook downloaded with source links and SHA-256; final run processed 41,061 rows. |
 | U-012 | `RESOLVED` | State statistics previously blocked by the missing crosswalk are complete with documented exceptions. | 33,770 state-resolved rows, 30,414 exact rows ranked, 52 summaries, and 0 blocking QA failures. |
-| U-013 | `NEEDS DECISION` | Select the first-commit scope: recommended code/docs/reports only, or all raw/generated data using an appropriate large-file policy. Nothing has been uploaded yet. | Resolve by approving the tracked-file list and `.gitignore` before the first `git add`, commit, and push. |
+| U-013 | `RESOLVED` | First-commit scope was selected as code/docs/reports only; raw and bulky generated data remain local and ignored. | User approved “按推荐上传”; `.gitignore` passed red/green path tests and the 24-file staged allowlist passed safety review. |
+| U-014 | `BLOCKED` | The approved local commits cannot be pushed until GitHub authentication is configured. Remote remains empty; no partial upload occurred. | HTTPS push stopped with `could not read Username`; diagnostics found no credential helper, SSH public key, or SSH-agent identity. Resolve by completing GitHub authentication, then pushing `main` without force. |
 
 ### Decisions required before candidate grouping
 
@@ -129,7 +131,7 @@ Approval should be recorded in the decision log before any candidate scenarios a
 
 ### Next planned work
 
-1. Approve the Git first-commit scope, create a matching `.gitignore`, review the exact staged-file list, and only then commit/push.
+1. Configure GitHub authentication, push local `main` without force, verify remote `main`, and append a successful-upload completion report.
 2. Obtain and record analytical checkpoint approval or requested revisions.
 3. If revisions are requested, update the mapping/ranking rules, rerun the full QA package, and append a new completion report.
 4. Only after analytical approval, generate exploratory 4/5/6 within-state candidate grouping scenarios for sensitivity comparison, without splitting income ties and without labeling a scenario final.
@@ -181,6 +183,17 @@ Approval should be recorded in the decision log before any candidate scenarios a
 - **Files:** `/Users/amber/Desktop/Territory/.git/config` and `/Users/amber/Desktop/Territory/COMPLETION_REPORT_LOG.md`.
 - **Unresolved:** `NEEDS DECISION` U-013 — first-commit tracking scope and `.gitignore`; analytical U-001 through U-010 are unchanged.
 - **Next action:** Approve the tracked-file scope before any `git add`, commit, or push.
+
+### CR-20260814-005 — Recommended Git upload prepared; authentication blocked
+
+- **Completed:** 2026-08-14 23:30 EDT (2026-08-15T03:30:44Z)
+- **Run ID:** Not applicable; no analytical rerun occurred.
+- **Status at completion:** `BLOCKED` at GitHub authentication; local content preparation and commit completed, remote transfer did not begin.
+- **Completed work:** Created and red/green-tested the recommended `.gitignore`; created local `.venv`; installed `openpyxl==3.1.5`; staged the explicit code/docs/reports allowlist; created root commit `a5c71b1` with message `Initialize Territory modeling project`.
+- **Verification:** 14/14 unit tests passed; 24 staged files passed forbidden-path, credential-pattern, and 25 MB size checks; largest tracked file was 64,233 bytes; ACS and HRSA source hashes remained unchanged; remote had 0 refs before the push attempt.
+- **Files:** `.gitignore`, the 24 approved tracked project files, local Git commit `a5c71b1`, and this completion-log update. Ignored raw/generated files remain present locally.
+- **Unresolved:** `RESOLVED` U-013 (upload scope); `BLOCKED` U-014 (GitHub authentication). Analytical U-001 through U-010 are unchanged.
+- **Next action:** Complete GitHub authentication without storing secrets in the repository, then push `main` without force and verify remote `main` equals local `HEAD`.
 
 ## Future Report Template
 
