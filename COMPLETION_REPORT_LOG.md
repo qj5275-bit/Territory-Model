@@ -1,8 +1,8 @@
 # Territory Project Completion Report Log
 
 **Canonical location:** `/Users/amber/Desktop/Territory/COMPLETION_REPORT_LOG.md`  
-**Current as of:** 2026-08-14 23:57 EDT  
-**Latest report:** `CR-20260814-006`  
+**Current as of:** 2026-08-15 00:06 EDT  
+**Latest report:** `CR-20260815-001`  
 **Analytical checkpoint:** **COMPLETE WITH DOCUMENTED EXCEPTIONS — APPROVAL REQUIRED BEFORE CANDIDATE GROUPS**
 
 ## How to maintain this log
@@ -51,7 +51,7 @@ No internal policy, premium, exposure, claim, or loss data have been used. No ca
     │   └── artifacts/
     │       ├── {data_dictionary,decision_log,output_manifest,source_inventory_manifest,source_links}.csv
     │       ├── run_metadata.json
-    │       ├── tables/       # canonical income, raw/resolved mappings, ranks, summaries
+    │       ├── tables/       # canonical income, 8-column simple income view, mappings, ranks, summaries
     │       ├── exceptions/   # mapping, income, uncertainty, identifier, and outlier records
     │       ├── qa/           # QA checks and processing-stage row counts
     │       └── reports/      # checkpoint, QA, and crosswalk-input reports
@@ -68,8 +68,8 @@ Raw/source files remain under `Data/`. Generated tables, reports, exceptions, co
 - Branch: `main`
 - Remote name: `origin`
 - Remote URL: `https://github.com/qj5275-bit/Territory-Model.git`
-- Remote state: `main` published; independent verification confirmed remote `main` and local `HEAD` both at `6763ae6baba8ac2224ecebecfb668cb58ad5b6cc` before this audit entry
-- Published content: root commit `a5c71b1` (`Initialize Territory modeling project`) and audit commit `6763ae6` (`Record blocked Git upload attempt`)
+- Remote state: `main` published; independent verification confirmed remote `main` and local `HEAD` both at `33758dcfd122d822c4b116c775eca614553bb4fc` before this audit entry
+- Published content includes root commit `a5c71b1` and upload-audit commits `6763ae6` and `33758dc`
 - Upload state: `COMPLETE` for the approved code/docs/reports scope
 - Authentication result: GitHub accepted HTTPS PAT authentication; no token or other secret was written to the project or this report
 
@@ -86,6 +86,7 @@ Raw/source files remain under `Data/`. Generated tables, reports, exceptions, co
 - Automated QA: **22 PASS**, **3 WARN**, **0 BLOCK**.
 - QA warnings: no allocation weights; 2 unresolved ACS ZCTAs; 8 territory ZIPs without ZCTA.
 - Raw-source immutability: verified before and after the final pipeline run.
+- Simplified household-income view: **33,772 rows / 8 columns**, unique five-character ZCTAs preserved; local file `household_income_simple.csv` derived without changing the 36-column canonical table.
 - Candidate groups produced: **No**.
 
 ### Source identity and provenance
@@ -204,6 +205,17 @@ Approval should be recorded in the decision log before any candidate scenarios a
 - **Files:** GitHub remote `https://github.com/qj5275-bit/Territory-Model.git` and `/Users/amber/Desktop/Territory/COMPLETION_REPORT_LOG.md`.
 - **Unresolved:** `RESOLVED` U-014 (GitHub authentication/upload). Analytical U-001 through U-010 are unchanged; candidate grouping remains blocked pending checkpoint approval.
 - **Next action:** Obtain and record explicit analytical checkpoint approval or requested revisions before generating any candidate groups.
+
+### CR-20260815-001 — Simplified household-income view created
+
+- **Completed:** 2026-08-15 00:06 EDT (2026-08-15T04:06:55Z)
+- **Run ID:** Not applicable; no analytical rerun occurred and no values were recalculated.
+- **Status at completion:** `COMPLETE` — an 8-column convenience view was created from the canonical 36-column table.
+- **Completed work:** Selected `zcta5`, `state_code`, `median_household_income`, `income_moe`, `income_value_status`, `mapping_status`, `income_rank_in_state`, and `income_percentile_in_state` into a simpler CSV while leaving the canonical table unchanged.
+- **Verification:** 33,772 data rows and 33,772 unique five-digit ZCTAs; 8 exact requested columns; leading-zero example `00601` preserved in raw CSV; 30,414 valid-income rows; source canonical-table SHA-256 unchanged before/after at `4c38b3ec4f7e7ea467075d7c5d5e66fedf27a7193d02e806760ce1c565a4efc1`; output SHA-256 `f576a6c0beeaeb6f3b9209ba05b111b52a6fd326497288b19a3a17660f4a70d2`; ACS and HRSA raw-source hashes also reverified unchanged.
+- **Files:** `/Users/amber/Desktop/Territory/Phase1_Output/phase1_foundation/artifacts/tables/household_income_simple.csv` and `/Users/amber/Desktop/Territory/COMPLETION_REPORT_LOG.md`.
+- **Unresolved:** No analytical issue was closed or added. U-001 through U-010 remain unchanged; candidate grouping remains blocked pending checkpoint approval.
+- **Next action:** Use the simplified file for viewing/export, and obtain explicit analytical checkpoint approval before generating candidate groups.
 
 ## Future Report Template
 
